@@ -12,30 +12,65 @@
     <div id="main" style="width: 900px; height: 600px"></div>
     <script type="text/javascript">
       // Specify the configuration items and data for the chart
+      let amount = [4, 4, 6, 6]
       let options = {
         title: { text: "Fake Store Categories" },
         xAxis: {
-          data: ["Category 1", "Category 2", "Category 3", "Category 4"],
+          data: ["men's clothing", "jewelry", "electronics", "women's clothing"],
         },
         yAxis: {},
         series: [
           {
             name: "# products",
             type: "bar",
-            data: [0, 1, 5, 2],
+            data: amount,
           },
         ],
       };
+
       fetch("https://fakestoreapi.com/products")
         .then((response) => response.json())
         .then((json) => {
           console.log(json);
+          let mens = 0
+          let jewelry = 0
+          let electronics = 0
+          let womens = 0
+          function categories(product) {
+            for (product of json) {
+              let category = product.category
+              if (category === "men's clothing") {
+                mens++
+              } else if (category === "jewelery") {
+                jewelry++
+              } else if (category === "electronics") {
+                electronics++
+              } else if (category === "women's clothing") {
+                womens++
+              }
+              // console.log(category)
+            }
+          }
+          
+          categories(json)
+          // let amount = [mens, jewelry, electronics, womens]
+
+          console.log(amount)
+
+          
           // use this JSON to find and set correct option data for the chart
         })
         .then(() => {
           // Display the chart
+          
           myChart.setOption(options);
+
+          
+          // myChart.setOption(options);
         });
+
+        
+
       // Initialize the echarts instance based on the prepared div
       let myChart = echarts.init(document.getElementById("main"));
     </script>
